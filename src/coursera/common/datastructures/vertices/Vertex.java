@@ -58,7 +58,7 @@ public class Vertex {
         return isExplored;
     }
 
-    public boolean isExplored(Boolean isExplored) {
+    public void isExplored(Boolean isExplored) {
         this.isExplored = isExplored;
     }
 
