@@ -23,3 +23,6 @@ hs_err_pid*
 
 # Intellij project files
 *.idea
+
+# Class files produced from compilation
+*out

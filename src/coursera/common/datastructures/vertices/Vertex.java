@@ -46,6 +46,35 @@ public class Vertex {
         this.edges = edges;
     }
 
+
+    /**
+     * Builds a string representation of a Vertex Object
+     * @return the string representation of the vertex
+     */
+    @Override public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Vertex ");
+        stringBuilder.append(identifier);
+        stringBuilder.append(" | explored=[");
+
+        if (isExplored) {
+            stringBuilder.append("X]");
+        } else {
+            stringBuilder.append(" ]");
+        }
+        stringBuilder.append(" -> [");
+
+        for (int i = 0, len = edges.size() - 1; i < len; i++ ){
+            stringBuilder.append(edges.get(i).getTail());
+            stringBuilder.append(",");
+        }
+
+        stringBuilder.append(edges.getLast().getTail());
+        stringBuilder.append("]");
+
+        return stringBuilder.toString();
+    }
+
     public int getIdentifier() {
         return identifier;
     }

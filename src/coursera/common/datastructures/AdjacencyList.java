@@ -108,6 +108,10 @@ public class AdjacencyList {
         return vertices.get(identifier - 1).isExplored();
     }
 
+    public Boolean isVertexInAdjacencylist(int identifier) {
+        return identifier < vertices.size();
+    }
+
     /**
      * Returns a string representation of the adjacencyList.
      * @return string representation of the adjacencyList
@@ -115,20 +119,8 @@ public class AdjacencyList {
     @Override public String toString() {
         StringBuilder printStr = new StringBuilder();
         for (int i = 0, length = vertices.size(); i < length; i++) {
-            printStr.append("vertex " + (i + 1) + ": [");
-
-            LinkedList<Edge> verticesAttachedToVertexI = getVerticesAttachedToVertex(i);
-            int numVerticesAttached = verticesAttachedToVertexI.size();
-
-            if (numVerticesAttached > 0 ) {
-                for (int j = 0; j < numVerticesAttached - 1; j++) {
-                    printStr.append((verticesAttachedToVertexI.get(j).getTail() + 1) + " -> ");
-                }
-
-                printStr.append((verticesAttachedToVertexI.get(numVerticesAttached - 1).getTail() + 1) + "]\n");
-            } else {
-                printStr.append("]\n");
-            }
+            printStr.append(vertices.get(i).toString());
+            printStr.append("\n");
         }
         return printStr.toString();
     }

@@ -1,6 +1,7 @@
 package coursera.common;
 
-import coursera.common.exceptions.NoVertexExistsException;
+import coursera.common.datastructures.vertices.Edge;
+import coursera.common.datastructures.vertices.Vertex;
 import coursera.common.datastructures.AdjacencyList;
 
 import java.io.BufferedReader;
@@ -9,7 +10,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.LinkedList;
 
 /**
  * This class exists to read input files for the programming assignments for the Stanford Algorithms course
@@ -18,41 +19,50 @@ import java.util.*;
  */
 public class FileIO {
 
+    /**
+     * Reads a file formatted with the first item in a row being the identifier for the vertex, followed by tuples
+     * with the edge and weight for each edge as the rest of the items in the row.
+     * @param fileName path to the file that needs to be read from
+     * @return AdjacencyList representation of the graph in the file
+     */
     public AdjacencyList getWeightedUndirectedAdjacencyListFromFile(String fileName) {
         AdjacencyList adjacencyList = new AdjacencyList();
         Charset charset = Charset.forName("UTF-8");
         Path filePath = Paths.get(fileName);
 
         try (BufferedReader reader = Files.newBufferedReader(filePath, charset)) {
-            LinkedList<Integer> directedEdges = new LinkedList<>();
-            String line = reader.readLine();
-            String[] lineSplit = line.split("\\s+");
-            directedEdges.add(Integer.parseInt(lineSplit[1]) - 1);
-            adjacencyList.addVertex(directedEdges);
+            /* List of edges to attach to a vertex */
+            LinkedList<Edge> directedEdges;
+            Edge edge;
+
+            /* Variables for reading lines from the file */
+            String line, lineSplit[], tuple[];
+
+            /* Variables for building ta new edge and vertex */
+            int newIdentifier, tail, weight;
 
             while((line = reader.readLine()) != null) {
+                directedEdges = new LinkedList<>();
                 lineSplit = line.split("\\s+");
-                int currentVertex = Integer.parseInt(lineSplit[0]) - 1;
-                int vertexToAdd = Integer.parseInt(lineSplit[1]) - 1;
+                newIdentifier = Integer.parseInt(lineSplit[0]);
 
-                if (!adjacencyList.vertexExists(vertexToAdd)) {
-                    adjacencyList.setVerticesAttachedToVertex(vertexToAdd, new LinkedList<>());
+                /* Build the list of edges */
+                for (int i = 1, len = lineSplit.length; i < len; i++) {
+                    tuple = lineSplit[i].split(",");
+                    tail = Integer.parseInt(tuple[0]);
+                    weight = Integer.parseInt(tuple[1]);
+                    edge = new Edge(false, newIdentifier, tail, weight);
+                    //System.out.println(edge);
+                    directedEdges.add(edge);
                 }
 
-                try {
-                    directedEdges = adjacencyList.getVerticesAttachedToVertex(currentVertex);
-                    directedEdges.add(vertexToAdd);
-                    adjacencyList.setVerticesAttachedToVertex(currentVertex, directedEdges);
-                } catch (NoVertexExistsException e) {
-                    directedEdges = new LinkedList<>();
-                    directedEdges.add(vertexToAdd);
-                    adjacencyList.setVerticesAttachedToVertex(currentVertex, directedEdges);
-                }
+                adjacencyList.appendNewVertex(directedEdges);
+
             }
         } catch (IOException x) {
             System.out.println("Error opening " + fileName);
         }
-
+        
         return adjacencyList;
     }
 }

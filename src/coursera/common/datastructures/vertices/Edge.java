@@ -54,6 +54,18 @@ public class Edge {
         this.weight = weight;
     }
 
+    /**
+     * Builds a string representation of an Edge
+     * @return the string representation of the edge
+     */
+    @Override public String toString() {
+        if (isDirected) {
+            return head + "---> " + tail + " | weight: " + weight;
+        } else {
+            return head + "---" + tail + " | weight: " + weight;
+        }
+    }
+
     public boolean isDirected() {
         return isDirected;
     }
@@ -81,4 +93,5 @@ public class Edge {
     public int getWeight() {
         return weight;
     }
+
 }
