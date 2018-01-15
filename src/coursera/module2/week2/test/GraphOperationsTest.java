@@ -1,4 +1,4 @@
-package coursera.module2.test;
+package coursera.module2.week2.test;
 
 import static org.junit.Assert.assertEquals;
 
