@@ -35,15 +35,14 @@ public class AdjacencyList {
     }
 
     /**
-     * Returns the edges associated with a vertex.
-     * @param identifier Identifier associated with a specific vertex
-     * @return edges The list of edges attached to this vertex.
+     * Returns the vertex based on the identifier passed in
+     * @param identifier vertex identifier to search for in the array
      */
-    public LinkedList<Edge> getVerticesAttachedToVertex(int identifier) {
+    public Vertex getVertex(int identifier) {
         try {
-            return vertices.get(identifier - 1).getEdges();
-        } catch(IndexOutOfBoundsException e) {
-            throw new NoVertexExistsException("No data exists in adjacencyListLL for vertex " + identifier);
+            return vertices.get(identifier - 1);
+        } catch (IndexOutOfBoundsException e) {
+            throw new NoVertexExistsException("Vertex " + identifier + "doesn't exist in the adjacency list");
         }
     }
 
@@ -108,8 +107,12 @@ public class AdjacencyList {
         return vertices.get(identifier - 1).isExplored();
     }
 
-    public Boolean isVertexInAdjacencylist(int identifier) {
-        return identifier < vertices.size();
+    /**
+     * get the number of vertices currently in the adjacency list
+     * @return the number of verticies in the adjacency list
+     */
+    public int getNumVertices() {
+        return vertices.size();
     }
 
     /**
