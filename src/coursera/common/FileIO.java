@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
+import java.util.function.ToIntFunction;
 
 /**
  * This class exists to read input files for the programming assignments for the Stanford Algorithms course
@@ -64,5 +65,26 @@ public class FileIO {
         }
         
         return adjacencyList;
+    }
+
+    /**
+     * Reads a file and converts its contents to an array of integers.  This method is intended to be used on a file
+     * with one integer entry per line.
+     * @param fileName path to the file that needs to be read from
+     * @return int array representation of the file passed in as an argument
+     */
+    public int[] getIntegerArrFromFile(String fileName) throws IOException{
+        int[] arr;
+        Charset charset = Charset.forName("UTF-8");
+        Path filePath = Paths.get(fileName);
+        ToIntFunction<String> parseStringToInt = s -> {
+            return Integer.parseInt(s);
+        };
+
+        try {
+            return Files.lines(filePath, charset).mapToInt(parseStringToInt).toArray();
+        } catch(IOException e) {
+            throw new IOException("Error opening " + fileName);
+        }
     }
 }
