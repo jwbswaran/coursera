@@ -138,7 +138,7 @@ public class GraphOperations {
         AdjacencyList adjacencyList;
         FileIO fileIO = new FileIO();
         GraphOperations graphOperations = new GraphOperations();
-        String fileName = "C:\\dev\\coursera\\input-files\\module2\\week2\\dijkstraData.txt";
+        String fileName = "src\\coursera\\common\\input-files\\module2\\week2\\dijkstraData.txt";
         adjacencyList = fileIO.getWeightedUndirectedAdjacencyListFromFile(fileName);
 
         int[] a = graphOperations.calculateShortestPathsUsingDijkstra(adjacencyList, 1);
