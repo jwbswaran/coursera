@@ -1,7 +1,6 @@
 package coursera.common;
 
 import coursera.common.datastructures.vertices.Edge;
-import coursera.common.datastructures.vertices.Vertex;
 import coursera.common.datastructures.AdjacencyList;
 
 import java.io.BufferedReader;
@@ -12,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 
 /**
  * This class exists to read input files for the programming assignments for the Stanford Algorithms course
@@ -74,7 +74,6 @@ public class FileIO {
      * @return int array representation of the file passed in as an argument
      */
     public int[] getIntegerArrFromFile(String fileName) throws IOException{
-        int[] arr;
         Charset charset = Charset.forName("UTF-8");
         Path filePath = Paths.get(fileName);
         ToIntFunction<String> parseStringToInt = s -> {
@@ -83,6 +82,26 @@ public class FileIO {
 
         try {
             return Files.lines(filePath, charset).mapToInt(parseStringToInt).toArray();
+        } catch(IOException e) {
+            throw new IOException("Error opening " + fileName);
+        }
+    }
+
+    /**
+     * Reads a file and converts its contents to an array of integers.  This method is intended to be used on a file
+     * with one integer entry per line.
+     * @param fileName path to the file that needs to be read from
+     * @return int array representation of the file passed in as an argument
+     */
+    public long[] getLongArrFromFile(String fileName) throws IOException{
+        Charset charset = Charset.forName("UTF-8");
+        Path filePath = Paths.get(fileName);
+        ToLongFunction<String> parseStringToLong = s -> {
+            return Long.parseLong(s);
+        };
+
+        try {
+            return Files.lines(filePath, charset).mapToLong(parseStringToLong).toArray();
         } catch(IOException e) {
             throw new IOException("Error opening " + fileName);
         }
