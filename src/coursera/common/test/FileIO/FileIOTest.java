@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import coursera.common.FileIO;
+import coursera.common.datastructures.Job;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -129,5 +130,53 @@ public class FileIOTest {
         assertEquals(68037543432L, emptyArr[2]);
         assertEquals(68037543433L, emptyArr[3]);
         assertEquals(68037543434L, emptyArr[4]);
+    }
+
+    @Test
+    public void testGetJobArrFromFileWithEmptyFile() {
+        String fileName = "src\\coursera\\common\\test\\FileIO\\testFiles\\empty.txt";
+        Job[] jobArr = null;
+        try {
+            jobArr = fileIO.getJobArrFromFile(fileName);
+        } catch(IOException e) {
+            fail();
+        }
+
+        assertNotNull(jobArr);
+        assertEquals(jobArr.length, 0);
+    }
+
+    @Test
+    public void testGetJobArrFromFileWithSingleJob() {
+        String fileName = "src\\coursera\\common\\test\\FileIO\\testFiles\\singleJob.txt";
+        Job[] jobArr = null;
+        try {
+            jobArr = fileIO.getJobArrFromFile(fileName);
+        } catch(IOException e) {
+            fail();
+        }
+
+        assertNotNull(jobArr);
+        assertEquals(jobArr[0].getWeight(), 8);
+        assertEquals(jobArr[0].getLength(), 50);
+    }
+
+    @Test
+    public void testGetJobArrFromFileWithTwoJobs() {
+        String fileName = "src\\coursera\\common\\test\\FileIO\\testFiles\\twoJob.txt";
+        Job[] jobArr = null;
+        try {
+            jobArr = fileIO.getJobArrFromFile(fileName);
+        } catch(IOException e) {
+            fail();
+        }
+
+        assertNotNull(jobArr);
+
+        assertEquals(jobArr[0].getWeight(), 8);
+        assertEquals(jobArr[0].getLength(), 50);
+
+        assertEquals(jobArr[1].getWeight(), 9);
+        assertEquals(jobArr[1].getLength(), 40);
     }
 }

@@ -1,5 +1,6 @@
 package coursera.common;
 
+import coursera.common.datastructures.Job;
 import coursera.common.datastructures.vertices.Edge;
 import coursera.common.datastructures.AdjacencyList;
 
@@ -10,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
+import java.util.function.Function;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 
@@ -102,6 +104,32 @@ public class FileIO {
 
         try {
             return Files.lines(filePath, charset).mapToLong(parseStringToLong).toArray();
+        } catch(IOException e) {
+            throw new IOException("Error opening " + fileName);
+        }
+    }
+
+    /**
+     * Reads a file and converts its contents to an array of Jobs. This method is intended to be used on a file that
+     * specifies the number of elements on the first line of the file, followed by each line of the file containing
+     * 2 integers separated by white space.  The first is a job's weeight, the 2nd is a job's length
+     * @param fileName
+     * @return
+     * @throws IOException
+     */
+    public Job[] getJobArrFromFile(String fileName) throws IOException {
+        Charset charset = Charset.forName("UTF-8");
+        Path filePath = Paths.get(fileName);
+
+        Function<String, Job> mapLineToJob = s -> {
+            String[] tupleArr = s.split(" ");
+            int weight = Integer.parseInt(tupleArr[0]);
+            int length = Integer.parseInt(tupleArr[1]);
+            return new Job(weight, length);
+        };
+
+        try {
+            return Files.lines(filePath, charset).map(mapLineToJob).toArray(Job[]::new);
         } catch(IOException e) {
             throw new IOException("Error opening " + fileName);
         }
