@@ -4,6 +4,8 @@ import coursera.common.FileIO;
 import coursera.common.datastructures.AdjacencyList;
 import coursera.common.datastructures.vertices.Edge;
 
+import java.io.IOException;
+import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -131,6 +133,107 @@ public class GraphOperations {
     }
 
     /**
+     * Calculates the cost of the minimum spanning tree of a graph using Prim's algorithm
+     * @param adjacencyList the graph to perform Prim's algorithm on
+     * @param sourceVertexIdentifier the identifier of the vertex where the graph should start
+     * @return the cost of the minimum spanning tree
+     */
+    public long getCostOfMinimumSpanningTree(AdjacencyList adjacencyList, int sourceVertexIdentifier) {
+         /* cost of the minimum spanning tree*/
+        long minCost = 0;
+
+        /*
+         * The set of vertices that exist in the minimum spanning tree
+         */
+        HashSet<Integer> x = new HashSet<>();
+
+        /* The frontier is the vertices that are on the border between the set of vertices x and the vertices
+         * we have yet to calculate the shortest distance from.
+         */
+        HashSet<Integer> frontier = new HashSet<>();
+
+        /*
+         * book keeping list of edges that are used to keep track of edges on the vertices on the frontier.
+         */
+        LinkedList<Edge> frontierEdges;
+
+        /*
+         * book keeping list of edges for the vertex that is about to be absorbed into X.
+         */
+        LinkedList<Edge> vertexToAbsorbEdges;
+
+        /* variables used for book keeping */
+        int frontierVertex, minEdgeCost, edgeCost, minEdgeTailIdentifier = sourceVertexIdentifier;
+        Edge absorbEdge, tailEdge;
+        Iterator<Integer> frontierIterator;
+        Iterator<Edge> vertexToAbsorbEdgesIterator, tailEdgesIterator;
+
+        /* add source vertex to the frontier to explore*/
+        frontier.add(sourceVertexIdentifier);
+        x.add(sourceVertexIdentifier);
+
+        /* Iterate until all vertices are in the set X */
+        while (x.size() < adjacencyList.getNumVertices()) {
+            minEdgeCost = Integer.MAX_VALUE;
+            frontierIterator = frontier.iterator();
+
+            /* This section of code calculates the cheapest edge for the vertices in the frontier */
+            while (frontierIterator.hasNext()) {
+                frontierVertex = frontierIterator.next();
+                frontierEdges = adjacencyList.getVertex(frontierVertex).getEdges();
+                if (frontierEdges.size() == 0) {
+                    frontierIterator.remove();
+                } else {
+
+                    for (Edge edge : frontierEdges) {
+                        edgeCost = edge.getWeight();
+
+                        if (edgeCost < minEdgeCost) {
+                            minEdgeCost = edgeCost;
+                            minEdgeTailIdentifier = edge.getTail();
+                        }
+                    }
+                }
+            }
+
+            minCost += minEdgeCost;
+            vertexToAbsorbEdges = adjacencyList.getVertex(minEdgeTailIdentifier).getEdges();
+            x.add(minEdgeTailIdentifier);
+
+            vertexToAbsorbEdgesIterator = vertexToAbsorbEdges.iterator();
+
+            /* This while loop removes the edges from the graph that point from the vertex with the minimum edge cost
+             * and vertices that are already in X. We do not want to check these for future minimum edge calculations
+             * as we already have.
+             */
+            while(vertexToAbsorbEdgesIterator.hasNext()) {
+                absorbEdge = vertexToAbsorbEdgesIterator.next();
+
+                if (x.contains(absorbEdge.getTail())) {
+                    LinkedList<Edge> tailEdges = adjacencyList.getVertex(absorbEdge.getTail()).getEdges();
+
+                    tailEdgesIterator = tailEdges.iterator();
+
+                    while(tailEdgesIterator.hasNext()) {
+                        tailEdge = tailEdgesIterator.next();
+                        if (tailEdge.getTail() == minEdgeTailIdentifier) {
+                            tailEdgesIterator.remove();
+                        }
+                    }
+
+                    try {
+                        vertexToAbsorbEdgesIterator.remove();
+                    } catch(ConcurrentModificationException e) {
+                        System.out.println(absorbEdge.toString() + " | already removed");
+                    }
+                }
+            }
+
+            frontier.add(minEdgeTailIdentifier);
+        }
+        return minCost;
+    }
+    /**
      * Execute this main method to run dijkstra's algorithm on the dijkstraData.txt file.
      * @param args command line args
      */
@@ -154,5 +257,16 @@ public class GraphOperations {
         System.out.print(a[187] + ",");
         System.out.print(a[196]);
         System.out.println();
+
+        fileName = "src\\coursera\\common\\input-files\\module3\\week1\\edges.txt";
+        try {
+            adjacencyList = fileIO.getWeightedUndirectedAdjacencyListFromEdgeFile(fileName);
+        } catch(IOException e) {
+            System.out.println("unable to open " + fileName);
+        }
+
+        long minCost = graphOperations.getCostOfMinimumSpanningTree(adjacencyList, 1);
+        System.out.println("");
+        System.out.println("Mincost: " + minCost);
     }
 }

@@ -5,10 +5,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import coursera.common.FileIO;
+import coursera.common.datastructures.AdjacencyList;
+import coursera.common.datastructures.Job;
+import coursera.common.datastructures.vertices.Edge;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.LinkedList;
 
 public class FileIOTest {
 
@@ -129,5 +133,130 @@ public class FileIOTest {
         assertEquals(68037543432L, emptyArr[2]);
         assertEquals(68037543433L, emptyArr[3]);
         assertEquals(68037543434L, emptyArr[4]);
+    }
+
+    @Test
+    public void testGetJobArrFromFileWithEmptyFile() {
+        String fileName = "src\\coursera\\common\\test\\FileIO\\testFiles\\empty.txt";
+        Job[] jobArr = null;
+        try {
+            jobArr = fileIO.getJobArrFromFile(fileName);
+        } catch(IOException e) {
+            fail();
+        }
+
+        assertNotNull(jobArr);
+        assertEquals(jobArr.length, 0);
+    }
+
+    @Test
+    public void testGetJobArrFromFileWithSingleJob() {
+        String fileName = "src\\coursera\\common\\test\\FileIO\\testFiles\\singleJob.txt";
+        Job[] jobArr = null;
+        try {
+            jobArr = fileIO.getJobArrFromFile(fileName);
+        } catch(IOException e) {
+            fail();
+        }
+
+        assertNotNull(jobArr);
+        assertEquals(jobArr[0].getWeight(), 8);
+        assertEquals(jobArr[0].getLength(), 50);
+    }
+
+    @Test
+    public void testGetJobArrFromFileWithTwoJobs() {
+        String fileName = "src\\coursera\\common\\test\\FileIO\\testFiles\\twoJob.txt";
+        Job[] jobArr = null;
+        try {
+            jobArr = fileIO.getJobArrFromFile(fileName);
+        } catch(IOException e) {
+            fail();
+        }
+
+        assertNotNull(jobArr);
+
+        assertEquals(jobArr[0].getWeight(), 8);
+        assertEquals(jobArr[0].getLength(), 50);
+
+        assertEquals(jobArr[1].getWeight(), 9);
+        assertEquals(jobArr[1].getLength(), 40);
+    }
+
+    @Test
+    public void testGetWeightedUndirectedAdjacencyListFromEdgeFileWithEmptyFile() {
+        String fileName = "src\\coursera\\common\\test\\FileIO\\testFiles\\empty.txt";
+        AdjacencyList adjacencyList = null;
+        try {
+            adjacencyList = fileIO.getWeightedUndirectedAdjacencyListFromEdgeFile(fileName);
+        } catch(IOException e) {
+            fail();
+        }
+        assertNotNull(adjacencyList);
+        assertEquals(0, adjacencyList.getNumVertices());
+    }
+
+    @Test
+    public void testGetWeightedUndirectedAdjacencyListFromEdgeFileWithOneEdgFile() {
+        String fileName = "src\\coursera\\common\\test\\FileIO\\testFiles\\oneEdge.txt";
+        AdjacencyList adjacencyList = null;
+
+        try {
+            adjacencyList = fileIO.getWeightedUndirectedAdjacencyListFromEdgeFile(fileName);
+        } catch(IOException e) {
+            fail();
+        }
+        assertNotNull(adjacencyList);
+        assertEquals(2, adjacencyList.getNumVertices());
+
+        LinkedList<Edge> edges = adjacencyList.getVertex(1).getEdges();
+        assertEquals(1, edges.size());
+
+        Edge e = edges.getFirst();
+        assertEquals(1, e.getHead());
+        assertEquals(2, e.getTail());
+        assertEquals(1687, e.getWeight());
+    }
+
+    @Test
+    public void testGetWeightedUndirectedAdjacencyListFromEdgeFileWithTwoEdgFile() {
+        String fileName = "src\\coursera\\common\\test\\FileIO\\testFiles\\twoEdge.txt";
+        AdjacencyList adjacencyList = null;
+
+        try {
+            adjacencyList = fileIO.getWeightedUndirectedAdjacencyListFromEdgeFile(fileName);
+        } catch(IOException e) {
+            fail();
+        }
+
+        assertNotNull(adjacencyList);
+        assertEquals(3, adjacencyList.getNumVertices());
+
+        LinkedList<Edge> edges = adjacencyList.getVertex(1).getEdges();
+        assertEquals(1, edges.size());
+
+        Edge e = edges.getFirst();
+        assertEquals(1, e.getHead());
+        assertEquals(2, e.getTail());
+        assertEquals(1687, e.getWeight());
+
+        edges = adjacencyList.getVertex(2).getEdges();
+        assertEquals(2, edges.size());
+
+        e = edges.pop();
+        assertEquals(2, e.getHead());
+        assertEquals(1, e.getTail());
+        assertEquals(1687, e.getWeight());
+
+        e = edges.pop();
+        assertEquals(2, e.getHead());
+        assertEquals(3, e.getTail());
+        assertEquals(-8023, e.getWeight());
+
+        edges = adjacencyList.getVertex(3).getEdges();
+        e = edges.pop();
+        assertEquals(3, e.getHead());
+        assertEquals(2, e.getTail());
+        assertEquals(-8023, e.getWeight());
     }
 }
