@@ -1,5 +1,6 @@
 package coursera.module3.week2.test;
 
+import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -59,5 +60,39 @@ public class ClusteringTest {
         
         maxSpacing = clustering.maxSpacingForKClusters(5, edgeBundle);
         assertEquals(1, maxSpacing);
+    }
+
+    @Test
+    public void testMaxClustersNeededWithDiscussionForumTestCaseProblem21() {
+        String fileName = "src\\coursera\\module3\\week2\\test\\testFiles\\discussionForumTestCaseProblem2_1.txt";
+        int[] arr = null;
+
+        try{
+            arr = fileIO.getIntegerArrFromBitRepresentationFile(fileName);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        assertNotNull(arr);
+        int maxK = clustering.maxClustersNeededFor24BitValues(arr);
+
+        assertEquals(6, maxK);
+    }
+
+    @Test
+    public void testMaxClustersNeededWithDiscussionForumTestCaseProblem22() {
+        String fileName = "src\\coursera\\module3\\week2\\test\\testFiles\\discussionForumTestCaseProblem2_2.txt";
+        int[] arr = null;
+
+        try{
+            arr = fileIO.getIntegerArrFromBitRepresentationFile(fileName);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        assertNotNull(arr);
+        int maxK = clustering.maxClustersNeededFor24BitValues(arr);
+
+        assertEquals(3, maxK);
     }
 }

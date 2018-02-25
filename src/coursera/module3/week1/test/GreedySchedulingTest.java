@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import coursera.common.FileIO;
-import coursera.common.datastructures.Job;
+import coursera.common.model.Job;
 import coursera.module3.week1.GreedyScheduling;
 
 import org.junit.Before;
