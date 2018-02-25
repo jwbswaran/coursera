@@ -11,6 +11,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.function.Function;
 import java.util.function.ToIntFunction;
@@ -20,6 +21,9 @@ import java.util.function.ToLongFunction;
  * This class exists to read input files for the programming assignments for the Stanford Algorithms course
  * hosted by Coursera.  The goal of the class is to prevent duplication of reading files into data structures
  * for the programming assignments when possible.
+ * 
+ * @author Jordan Beck
+ * @since 2018
  */
 public class FileIO {
 
@@ -171,9 +175,9 @@ public class FileIO {
     /**
      * Reads a file and converts its contents to an array of Jobs. This method is intended to be used on a file that
      * specifies the number of elements on the first line of the file, followed by each line of the file containing
-     * 2 integers separated by white space.  The first is a job's weeight, the 2nd is a job's length
-     * @param fileName
-     * @return
+     * 2 integers separated by white space.  The first is a job's weight, the 2nd is a job's length
+     * @param fileName path to the file that needs to be read from
+     * @return Job[] array representation of the contents of the file
      * @throws IOException
      */
     public Job[] getJobArrFromFile(String fileName) throws IOException {
@@ -192,5 +196,52 @@ public class FileIO {
         } catch(IOException e) {
             throw new IOException("Error opening " + fileName);
         }
+    }
+    
+    /**
+     * Reads a file and converts its contents to an array of edge objects found in the 
+     * coursera.common.datastructures.vertices package.  The file must follow the format below:
+     * 
+     * [number_of_nodes]
+     * [edge 1 node 1] [edge 1 node 2] [edge 1 cost] - example of the following lines to follow
+     * [edge 2 node 1] [edge 2 node 2] [edge 2 cost]
+     *
+     * This array will be packaged into an EdgeBundle object, which also maintains the number of vertices
+     * in the graph these edges exist in.
+     * 
+     * @param fileName path to the file that needs to be read from
+     * @return an array of Edges based on the contents of the file.
+     * @throws IOException
+     */
+    public EdgeBundle getEdgeBundleFromFile(String fileName) throws IOException {
+        Charset charset = Charset.forName("UTF-8");
+        Path filePath = Paths.get(fileName);
+        EdgeBundle edgeBundle = new EdgeBundle();
+        ArrayList<Edge> edges = new ArrayList<Edge>();
+        
+        try (BufferedReader reader = Files.newBufferedReader(filePath, charset)) {
+            // Variables for reading lines from the file
+            String line, lineSplit[];
+            
+            while ((line = reader.readLine()) != null) {
+                lineSplit = line.split(" ");
+                
+                if (lineSplit.length < 3) {
+                    edgeBundle.setNumVertices(Integer.parseInt(lineSplit[0])); 
+                } else {
+                    int head =   Integer.parseInt(lineSplit[0]);
+                    int tail =   Integer.parseInt(lineSplit[1]);
+                    int weight = Integer.parseInt(lineSplit[2]);
+                    edges.add(new Edge(false, head, tail, weight));
+                }
+            }
+            
+        } catch (IOException x) {
+            throw new IOException("Error opening " + fileName);
+        }
+        
+        edgeBundle.setEdges((edges.toArray(new Edge[0])));
+
+        return edgeBundle;
     }
 }
