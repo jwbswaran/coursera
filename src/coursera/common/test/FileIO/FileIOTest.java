@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 import coursera.common.EdgeBundle;
 import coursera.common.FileIO;
 import coursera.common.datastructures.AdjacencyList;
+import coursera.common.model.HuffmanSymbol;
 import coursera.common.model.Job;
 import coursera.common.datastructures.vertices.Edge;
 import org.junit.Before;
@@ -14,6 +15,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 public class FileIOTest {
 
@@ -380,5 +382,67 @@ public class FileIOTest {
 
         assertNotNull(arr);
         assertEquals(4, arr.length);
+    }
+
+    @Test
+    public void testGetPriorityQueueFromHuffmanFileWithEmptyFile() {
+        String fileName = "src/coursera/common/test/FileIO/testFiles/empty.txt";
+        PriorityQueue<HuffmanSymbol> pq = null;
+
+        try {
+            pq = fileIO.getPriorityQueueFromHuffmanFile(fileName);
+        } catch(IOException e) {
+            fail();
+        }
+
+        assertNotNull(pq);
+
+        assertEquals(0, pq.size());
+    }
+
+    @Test
+    public void testGetPriorityQueueFromHuffmanFileWithOneElement() {
+        String fileName = "src/coursera/common/test/FileIO/testFiles/HuffmanTestFiles/SingleSymbol.txt";
+        PriorityQueue<HuffmanSymbol> pq = null;
+        HuffmanSymbol symbol;
+
+        try {
+            pq = fileIO.getPriorityQueueFromHuffmanFile(fileName);
+        } catch(IOException e) {
+            fail();
+        }
+
+        assertNotNull(pq);
+
+        assertEquals(1, pq.size());
+
+        symbol = pq.peek();
+        assertEquals(0, symbol.getIdentifier());
+        assertEquals(7540662, symbol.getWeight());
+    }
+
+    @Test
+    public void testGetPriorityQueueFromHuffmanFileWithTwoElements() {
+        String fileName = "src/coursera/common/test/FileIO/testFiles/HuffmanTestFiles/DoubleSymbol.txt";
+        PriorityQueue<HuffmanSymbol> pq = null;
+        HuffmanSymbol symbol;
+
+        try {
+            pq = fileIO.getPriorityQueueFromHuffmanFile(fileName);
+        } catch(IOException e) {
+            fail();
+        }
+
+        assertNotNull(pq);
+
+        assertEquals(2, pq.size());
+
+        symbol = pq.remove();
+        assertEquals(1, symbol.getIdentifier());
+        assertEquals(6852892, symbol.getWeight());
+
+        symbol = pq.remove();
+        assertEquals(0, symbol.getIdentifier());
+        assertEquals(7540662, symbol.getWeight());
     }
 }

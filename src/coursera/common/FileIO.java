@@ -1,9 +1,11 @@
 package coursera.common;
 
+import coursera.common.model.HuffmanSymbol;
 import coursera.common.model.Job;
 import coursera.common.datastructures.vertices.Edge;
 import coursera.common.datastructures.AdjacencyList;
 import coursera.common.datastructures.vertices.Vertex;
+import org.apache.log4j.Priority;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.function.Function;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
@@ -149,6 +152,11 @@ public class FileIO {
             String line, lineSplit[];
 
             line = reader.readLine();
+
+            if (line == null) {
+                return arr;
+            }
+
             lineSplit = line.split(" ");
             arr = new int[Integer.parseInt(lineSplit[0])];
 
@@ -207,9 +215,9 @@ public class FileIO {
     /**
      * Reads a file and converts its contents to an array of Jobs. This method is intended to be used on a file that
      * specifies the number of elements on the first line of the file, followed by each line of the file containing
-     * 2 integers separated by white space.  The first is a job's weight, the 2nd is a job's length
+     * 2 integers separated by white space.  The first is a job's weeight, the 2nd is a job's length
      * @param fileName path to the file that needs to be read from
-     * @return Job[] array representation of the contents of the file
+     * @return Array of Job objects represented in the file.
      * @throws IOException
      */
     public Job[] getJobArrFromFile(String fileName) throws IOException {
@@ -250,30 +258,73 @@ public class FileIO {
         Path filePath = Paths.get(fileName);
         EdgeBundle edgeBundle = new EdgeBundle();
         ArrayList<Edge> edges = new ArrayList<Edge>();
-        
+
         try (BufferedReader reader = Files.newBufferedReader(filePath, charset)) {
             // Variables for reading lines from the file
             String line, lineSplit[];
-            
+
             while ((line = reader.readLine()) != null) {
                 lineSplit = line.split(" ");
-                
+
                 if (lineSplit.length < 3) {
-                    edgeBundle.setNumVertices(Integer.parseInt(lineSplit[0])); 
+                    edgeBundle.setNumVertices(Integer.parseInt(lineSplit[0]));
                 } else {
-                    int head =   Integer.parseInt(lineSplit[0]);
-                    int tail =   Integer.parseInt(lineSplit[1]);
+                    int head = Integer.parseInt(lineSplit[0]);
+                    int tail = Integer.parseInt(lineSplit[1]);
                     int weight = Integer.parseInt(lineSplit[2]);
                     edges.add(new Edge(false, head, tail, weight));
                 }
             }
-            
+
         } catch (IOException x) {
             throw new IOException("Error opening " + fileName);
         }
-        
+
         edgeBundle.setEdges((edges.toArray(new Edge[0])));
 
         return edgeBundle;
+    }
+
+    /**
+     * Reads a file in the format given by coursera for module 3 week 3 and stores the values in a Java PriorityQueue.
+     * This file format may be reused in the future and if it is, I will re-purpose this method to handle multiple
+     * cases.  The Format is as follows:
+     *
+     * [number_of_symbols]
+     * [weight of symbol #1]
+     * [weight of symbol #2]
+     *  ...
+     *
+     * @param fileName path to the file that needs to be read from
+     * @return priority queue
+     */
+    public PriorityQueue<HuffmanSymbol> getPriorityQueueFromHuffmanFile(String fileName) throws IOException {
+        Charset charset = Charset.forName("UTF-8");
+        Path filePath = Paths.get(fileName);
+        PriorityQueue<HuffmanSymbol> pq;
+        String line;
+        int symbolCount = 0;
+
+        try (BufferedReader reader = Files.newBufferedReader(filePath, charset)) {
+
+            line = reader.readLine();
+
+            if (line == null) {
+                return new PriorityQueue<>();
+            }
+
+            pq = new PriorityQueue<>(Integer.parseInt(line));
+
+            while ((line = reader.readLine()) != null) {
+                pq.add(new HuffmanSymbol(symbolCount, Integer.parseInt(line)));
+                symbolCount++;
+            }
+
+            return pq;
+        } catch (IOException e) {
+            throw new IOException("Error opening " + fileName);
+        }
+
+
     }
 }
