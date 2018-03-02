@@ -7,7 +7,7 @@ import static org.junit.Assert.fail;
 import coursera.common.EdgeBundle;
 import coursera.common.FileIO;
 import coursera.common.datastructures.AdjacencyList;
-import coursera.common.datastructures.Job;
+import coursera.common.model.Job;
 import coursera.common.datastructures.vertices.Edge;
 import org.junit.Before;
 import org.junit.Test;
@@ -349,5 +349,36 @@ public class FileIOTest {
         assertEquals(2, edge.getHead());
         assertEquals(3, edge.getTail());
         assertEquals(-8023, edge.getWeight());
+    }
+
+    @Test
+    public void testGetIntegerArrFromBitRepresentationFileWithEmptyFile() {
+        String fileName = "src\\coursera\\common\\test\\FileIO\\testFiles\\empty.txt";
+        int[] arr = null;
+
+        try {
+            arr = fileIO.getIntegerArrFromBitRepresentationFile(fileName);
+        } catch(IOException e) {
+            fail();
+        }
+
+        assertNotNull(arr);
+        assertEquals(0, arr.length);
+    }
+
+
+    @Test
+    public void testGetIntegerArrFromBitRepresentationFileWithTestFile() {
+        String fileName = "src\\coursera\\common\\test\\FileIO\\testFiles\\BitRepresentation.txt";
+        int[] arr = null;
+
+        try {
+            arr = fileIO.getIntegerArrFromBitRepresentationFile(fileName);
+        } catch(IOException e) {
+            fail();
+        }
+
+        assertNotNull(arr);
+        assertEquals(4, arr.length);
     }
 }

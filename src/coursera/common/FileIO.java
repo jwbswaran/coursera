@@ -1,6 +1,6 @@
 package coursera.common;
 
-import coursera.common.datastructures.Job;
+import coursera.common.model.Job;
 import coursera.common.datastructures.vertices.Edge;
 import coursera.common.datastructures.AdjacencyList;
 import coursera.common.datastructures.vertices.Vertex;
@@ -130,6 +130,38 @@ public class FileIO {
         }
 
         return adjacencyList;
+    }
+
+    /**
+     * Reads a file and converts its contents to an array of integers.  This method is intended to be used on a file
+     * with one integer entry per line.
+     * @param fileName path to the file that needs to be read from
+     * @return int array representation of the file passed in as an argument
+     */
+    public int[] getIntegerArrFromBitRepresentationFile(String fileName) throws IOException{
+        Charset charset = Charset.forName("UTF-8");
+        Path filePath = Paths.get(fileName);
+        int i = 0;
+        int[] arr = new int[0];
+
+        try (BufferedReader reader = Files.newBufferedReader(filePath, charset)) {
+            // Variables for reading lines from the file
+            String line, lineSplit[];
+
+            line = reader.readLine();
+            lineSplit = line.split(" ");
+            arr = new int[Integer.parseInt(lineSplit[0])];
+
+            while ((line = reader.readLine()) != null) {
+                line = line.replaceAll("\\s+", "");
+                arr[i] = Integer.parseInt(line, 2);
+                i++;
+            }
+
+        } catch (IOException x) {
+            throw new IOException("Error opening " + fileName);
+        }
+        return arr;
     }
 
     /**

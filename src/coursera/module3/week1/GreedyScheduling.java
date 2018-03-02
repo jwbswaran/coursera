@@ -1,7 +1,7 @@
 package coursera.module3.week1;
 
 import coursera.common.FileIO;
-import coursera.common.datastructures.Job;
+import coursera.common.model.Job;
 
 import java.io.IOException;
 import java.util.Arrays;
