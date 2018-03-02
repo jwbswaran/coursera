@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import coursera.common.EdgeBundle;
 import coursera.common.FileIO;
 import coursera.common.datastructures.AdjacencyList;
 import coursera.common.datastructures.Job;
@@ -258,5 +259,95 @@ public class FileIOTest {
         assertEquals(3, e.getHead());
         assertEquals(2, e.getTail());
         assertEquals(-8023, e.getWeight());
+    }
+    
+    @Test
+    public void testGetEdgeArrFromNonExistingFile() {
+        String fileName = "src\\coursera\\common\\test\\FileIO\\testFiles\\FAKE.txt";
+        
+        try {
+            fileIO.getEdgeBundleFromFile(fileName);
+        } catch(IOException e) {
+            assertEquals(true, true);
+        }
+    }
+    
+    @Test
+    public void testGetEdgeBundleFromEmptyFile() {
+        String fileName = "src\\coursera\\common\\test\\FileIO\\testFiles\\empty.txt";
+        EdgeBundle edgeBundle = null;
+        Edge[] edges = null;
+
+        try {
+            edgeBundle = fileIO.getEdgeBundleFromFile(fileName);
+        } catch(IOException e) {
+            fail();
+        }
+        
+        assertNotNull(edgeBundle);
+        edges = edgeBundle.getEdges();
+        
+        assertNotNull(edges); 
+        assertEquals(0, edges.length);
+    }
+    
+    @Test
+    public void testGetEdgeBundleFromOneEdgeFile() {
+        String fileName = "src\\coursera\\common\\test\\FileIO\\testFiles\\OneEdge.txt";
+        EdgeBundle edgeBundle = null;
+        Edge[] edges = null;
+
+        try {
+            edgeBundle = fileIO.getEdgeBundleFromFile(fileName);
+        } catch(IOException e) {
+            fail();
+        }
+        
+        assertNotNull(edgeBundle);
+        assertEquals(2, edgeBundle.getNumVertices());
+        
+        edges = edgeBundle.getEdges();
+        
+        assertNotNull(edges); 
+        assertEquals(1, edges.length);
+        
+        Edge edge = edges[0];
+        
+        assertEquals(1, edge.getHead());
+        assertEquals(2, edge.getTail());
+        assertEquals(1687, edge.getWeight());
+    }
+    
+    @Test
+    public void testGetEdgeBundleFromTwoEdgeFile() {
+        String fileName = "src\\coursera\\common\\test\\FileIO\\testFiles\\twoEdge.txt";
+        EdgeBundle edgeBundle = null;
+        Edge[] edges = null;
+
+        try {
+            edgeBundle = fileIO.getEdgeBundleFromFile(fileName);
+        } catch(IOException e) {
+            fail();
+        }
+        
+        assertNotNull(edgeBundle);
+        assertEquals(3, edgeBundle.getNumVertices());
+        
+        edges = edgeBundle.getEdges();
+        
+        assertNotNull(edges); 
+        assertEquals(2, edges.length);
+        
+        Edge edge = edges[0];
+        
+        assertEquals(1, edge.getHead());
+        assertEquals(2, edge.getTail());
+        assertEquals(1687, edge.getWeight());
+        
+        edge = edges[1];
+        
+        assertEquals(2, edge.getHead());
+        assertEquals(3, edge.getTail());
+        assertEquals(-8023, edge.getWeight());
     }
 }
