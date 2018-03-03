@@ -303,7 +303,7 @@ public class FileIO {
         Path filePath = Paths.get(fileName);
         PriorityQueue<HuffmanSymbol> pq;
         String line;
-        int symbolCount = 0;
+        int symbolCount = 1;
 
         try (BufferedReader reader = Files.newBufferedReader(filePath, charset)) {
 

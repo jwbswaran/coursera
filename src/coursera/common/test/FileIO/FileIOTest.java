@@ -417,7 +417,7 @@ public class FileIOTest {
         assertEquals(1, pq.size());
 
         symbol = pq.peek();
-        assertEquals(0, symbol.getIdentifier());
+        assertEquals(1, symbol.getIdentifier());
         assertEquals(7540662, symbol.getWeight());
     }
 
@@ -438,11 +438,11 @@ public class FileIOTest {
         assertEquals(2, pq.size());
 
         symbol = pq.remove();
-        assertEquals(1, symbol.getIdentifier());
+        assertEquals(2, symbol.getIdentifier());
         assertEquals(6852892, symbol.getWeight());
 
         symbol = pq.remove();
-        assertEquals(0, symbol.getIdentifier());
+        assertEquals(1, symbol.getIdentifier());
         assertEquals(7540662, symbol.getWeight());
     }
 }
