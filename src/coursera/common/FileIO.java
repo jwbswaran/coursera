@@ -1,11 +1,10 @@
 package coursera.common;
 
-import coursera.common.model.HuffmanSymbol;
+import coursera.common.model.WeightedObject;
 import coursera.common.model.Job;
 import coursera.common.datastructures.vertices.Edge;
 import coursera.common.datastructures.AdjacencyList;
 import coursera.common.datastructures.vertices.Vertex;
-import org.apache.log4j.Priority;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -298,10 +297,10 @@ public class FileIO {
      * @param fileName path to the file that needs to be read from
      * @return priority queue
      */
-    public PriorityQueue<HuffmanSymbol> getPriorityQueueFromHuffmanFile(String fileName) throws IOException {
+    public PriorityQueue<WeightedObject> getPriorityQueueFromHuffmanFile(String fileName) throws IOException {
         Charset charset = Charset.forName("UTF-8");
         Path filePath = Paths.get(fileName);
-        PriorityQueue<HuffmanSymbol> pq;
+        PriorityQueue<WeightedObject> pq;
         String line;
         int symbolCount = 1;
 
@@ -316,7 +315,7 @@ public class FileIO {
             pq = new PriorityQueue<>(Integer.parseInt(line));
 
             while ((line = reader.readLine()) != null) {
-                pq.add(new HuffmanSymbol(symbolCount, Integer.parseInt(line)));
+                pq.add(new WeightedObject(symbolCount, Integer.parseInt(line)));
                 symbolCount++;
             }
 
@@ -324,7 +323,44 @@ public class FileIO {
         } catch (IOException e) {
             throw new IOException("Error opening " + fileName);
         }
+    }
 
+    /**
+     * Reads a file in the format given by coursera for module 3 week 3 and stores the values in an array.
+     *
+     * [number_of_symbols]
+     * [weight of symbol #1]
+     * [weight of symbol #2]
+     *  ...
+     *
+     * @param fileName path to the file that needs to be read from
+     * @return priority queue
+     */
+    public WeightedObject[] getWeightedObjectArrFromFile(String fileName) throws IOException{
+        Charset charset = Charset.forName("UTF-8");
+        Path filePath = Paths.get(fileName);
+        WeightedObject[] arr;
+        String line;
+        int objectCount = 1;
 
+        try (BufferedReader reader = Files.newBufferedReader(filePath, charset)) {
+
+            line = reader.readLine();
+
+            if (line == null) {
+                return new WeightedObject[0];
+            }
+
+            arr = new WeightedObject[Integer.parseInt(line)];
+
+            while ((line = reader.readLine()) != null) {
+                arr[objectCount - 1] = new WeightedObject(objectCount, Integer.parseInt(line));
+                objectCount++;
+            }
+
+            return arr;
+        } catch (IOException e) {
+            throw new IOException("Error opening " + fileName);
+        }
     }
 }

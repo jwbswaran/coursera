@@ -1,6 +1,6 @@
 package coursera.common.datastructures.BinaryTree;
 
-import coursera.common.model.HuffmanSymbol;
+import coursera.common.model.WeightedObject;
 
 /**
  * Binary Tree class.  Supports the add and find operations.
@@ -16,7 +16,7 @@ public class BinaryTree{
         this.head = head;
     }
 
-    public void insert(HuffmanSymbol value) {
+    public void insert(WeightedObject value) {
         if (head == null) {
             Node node = new Node(value, null, null);
             head = node;
@@ -26,11 +26,11 @@ public class BinaryTree{
 
     }
 
-    private Node addRecursive(Node current, HuffmanSymbol value) {
+    private Node addRecursive(Node current, WeightedObject value) {
         if (current == null) {
             return new Node(value, null, null);
         } else {
-            HuffmanSymbol nodeValue = current.getValue();
+            WeightedObject nodeValue = current.getValue();
             int compareVal = value.compareTo(nodeValue);
 
             if (compareVal <= 0) {

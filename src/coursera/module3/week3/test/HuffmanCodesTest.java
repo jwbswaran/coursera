@@ -6,7 +6,7 @@ import static org.junit.Assert.fail;
 import java.io.IOException;
 import java.util.PriorityQueue;
 
-import coursera.common.model.HuffmanSymbol;
+import coursera.common.model.WeightedObject;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,7 +28,7 @@ public class HuffmanCodesTest {
     public void testGetMaxLengthOfCodeWordWithDiscussionForumTestCase1() {
         String fileName = "src/coursera/module3/week3/test/Test1.txt";
 
-        PriorityQueue<HuffmanSymbol> pq = null;
+        PriorityQueue<WeightedObject> pq = null;
 
         try {
             pq = fileIO.getPriorityQueueFromHuffmanFile(fileName);
@@ -45,7 +45,7 @@ public class HuffmanCodesTest {
     public void testGetMinLengthOfCodeWordWithDiscussionForumTestCase1() {
         String fileName = "src/coursera/module3/week3/test/Test1.txt";
 
-        PriorityQueue<HuffmanSymbol> pq = null;
+        PriorityQueue<WeightedObject> pq = null;
 
         try {
             pq = fileIO.getPriorityQueueFromHuffmanFile(fileName);
@@ -62,7 +62,7 @@ public class HuffmanCodesTest {
     public void testGetMaxLengthOfCodeWordWithDiscussionForumTestCase2() {
         String fileName = "src/coursera/module3/week3/test/Test2.txt";
 
-        PriorityQueue<HuffmanSymbol> pq = null;
+        PriorityQueue<WeightedObject> pq = null;
 
         try {
             pq = fileIO.getPriorityQueueFromHuffmanFile(fileName);
@@ -79,7 +79,7 @@ public class HuffmanCodesTest {
     public void testGetMinLengthOfCodeWordWithDiscussionForumTestCase2() {
         String fileName = "src/coursera/module3/week3/test/Test2.txt";
 
-        PriorityQueue<HuffmanSymbol> pq = null;
+        PriorityQueue<WeightedObject> pq = null;
 
         try {
             pq = fileIO.getPriorityQueueFromHuffmanFile(fileName);
@@ -96,7 +96,7 @@ public class HuffmanCodesTest {
     public void testGetMaxLengthOfCodeWordWithDiscussionForumTestCase3() {
         String fileName = "src/coursera/module3/week3/test/Test3.txt";
 
-        PriorityQueue<HuffmanSymbol> pq = null;
+        PriorityQueue<WeightedObject> pq = null;
 
         try {
             pq = fileIO.getPriorityQueueFromHuffmanFile(fileName);
@@ -113,7 +113,7 @@ public class HuffmanCodesTest {
     public void testGetMinLengthOfCodeWordWithDiscussionForumTestCase3() {
         String fileName = "src/coursera/module3/week3/test/Test3.txt";
 
-        PriorityQueue<HuffmanSymbol> pq = null;
+        PriorityQueue<WeightedObject> pq = null;
 
         try {
             pq = fileIO.getPriorityQueueFromHuffmanFile(fileName);
@@ -130,7 +130,7 @@ public class HuffmanCodesTest {
     public void testGetMaxLengthOfCodeWordWithDiscussionForumTestCase4() {
         String fileName = "src/coursera/module3/week3/test/Test4.txt";
 
-        PriorityQueue<HuffmanSymbol> pq = null;
+        PriorityQueue<WeightedObject> pq = null;
 
         try {
             pq = fileIO.getPriorityQueueFromHuffmanFile(fileName);
@@ -147,7 +147,7 @@ public class HuffmanCodesTest {
     public void testGetMinLengthOfCodeWordWithDiscussionForumTestCase4() {
         String fileName = "src/coursera/module3/week3/test/Test4.txt";
 
-        PriorityQueue<HuffmanSymbol> pq = null;
+        PriorityQueue<WeightedObject> pq = null;
 
         try {
             pq = fileIO.getPriorityQueueFromHuffmanFile(fileName);

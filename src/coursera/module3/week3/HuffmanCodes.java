@@ -3,7 +3,7 @@ package coursera.module3.week3;
 import coursera.common.FileIO;
 import coursera.common.datastructures.BinaryTree.BinaryTree;
 import coursera.common.datastructures.BinaryTree.Node;
-import coursera.common.model.HuffmanSymbol;
+import coursera.common.model.WeightedObject;
 
 import java.io.IOException;
 import java.util.PriorityQueue;
@@ -14,21 +14,21 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public class HuffmanCodes {
 
-    private PriorityQueue<HuffmanSymbol> pq;
+    private PriorityQueue<WeightedObject> pq;
 
     private Node head;
 
     private BinaryTree tree;
 
-    private HuffmanSymbol minHuffmanSymbol;
+    private WeightedObject minWeightedObject;
 
-    private HuffmanSymbol maxHuffmanSymbol;
+    private WeightedObject maxWeightedObject;
 
     public HuffmanCodes() {
 
     }
 
-    public HuffmanCodes(PriorityQueue<HuffmanSymbol> pq) {
+    public HuffmanCodes(PriorityQueue<WeightedObject> pq) {
         this.pq = pq;
         buildEncodingTree();
     }
@@ -36,15 +36,15 @@ public class HuffmanCodes {
     private void buildEncodingTree() {
         ArrayBlockingQueue<Node> queue = new ArrayBlockingQueue<>(pq.size());
 
-        HuffmanSymbol mergeSymbol;
+        WeightedObject mergeSymbol;
         Node leftNode, rightNode, mergeNode;
 
         while (pq.size() > 0) {
             if (pq.size() >= 2) {
-                HuffmanSymbol sym1 = pq.remove();
-                HuffmanSymbol sym2 = pq.remove();
+                WeightedObject sym1 = pq.remove();
+                WeightedObject sym2 = pq.remove();
 
-                mergeSymbol = new HuffmanSymbol();
+                mergeSymbol = new WeightedObject();
                 mergeSymbol.setWeight(sym1.getWeight() + sym2.getWeight());
                 
                 if (queue.size() > 0) {
@@ -88,7 +88,7 @@ public class HuffmanCodes {
     public static void main (String[] args) {
         String fileName = "src/coursera/common/input-files/module3/week3/huffman.txt";
         FileIO fileIO = new FileIO();
-        PriorityQueue<HuffmanSymbol> pq = null;
+        PriorityQueue<WeightedObject> pq = null;
 
         try {
             pq = fileIO.getPriorityQueueFromHuffmanFile(fileName);

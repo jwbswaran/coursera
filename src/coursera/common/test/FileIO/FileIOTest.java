@@ -7,7 +7,7 @@ import static org.junit.Assert.fail;
 import coursera.common.EdgeBundle;
 import coursera.common.FileIO;
 import coursera.common.datastructures.AdjacencyList;
-import coursera.common.model.HuffmanSymbol;
+import coursera.common.model.WeightedObject;
 import coursera.common.model.Job;
 import coursera.common.datastructures.vertices.Edge;
 import org.junit.Before;
@@ -387,7 +387,7 @@ public class FileIOTest {
     @Test
     public void testGetPriorityQueueFromHuffmanFileWithEmptyFile() {
         String fileName = "src/coursera/common/test/FileIO/testFiles/empty.txt";
-        PriorityQueue<HuffmanSymbol> pq = null;
+        PriorityQueue<WeightedObject> pq = null;
 
         try {
             pq = fileIO.getPriorityQueueFromHuffmanFile(fileName);
@@ -403,8 +403,8 @@ public class FileIOTest {
     @Test
     public void testGetPriorityQueueFromHuffmanFileWithOneElement() {
         String fileName = "src/coursera/common/test/FileIO/testFiles/HuffmanTestFiles/SingleSymbol.txt";
-        PriorityQueue<HuffmanSymbol> pq = null;
-        HuffmanSymbol symbol;
+        PriorityQueue<WeightedObject> pq = null;
+        WeightedObject symbol;
 
         try {
             pq = fileIO.getPriorityQueueFromHuffmanFile(fileName);
@@ -424,8 +424,8 @@ public class FileIOTest {
     @Test
     public void testGetPriorityQueueFromHuffmanFileWithTwoElements() {
         String fileName = "src/coursera/common/test/FileIO/testFiles/HuffmanTestFiles/DoubleSymbol.txt";
-        PriorityQueue<HuffmanSymbol> pq = null;
-        HuffmanSymbol symbol;
+        PriorityQueue<WeightedObject> pq = null;
+        WeightedObject symbol;
 
         try {
             pq = fileIO.getPriorityQueueFromHuffmanFile(fileName);
@@ -444,5 +444,59 @@ public class FileIOTest {
         symbol = pq.remove();
         assertEquals(1, symbol.getIdentifier());
         assertEquals(7540662, symbol.getWeight());
+    }
+
+    @Test
+    public void testGetWeightedObjectArrFromFileWithEmptyFile() {
+        String fileName = "src/coursera/common/test/FileIO/testFiles/empty.txt";
+        WeightedObject[] arr = null;
+
+        try {
+            arr = fileIO.getWeightedObjectArrFromFile(fileName);
+        } catch (IOException e) {
+            fail();
+        }
+
+        assertNotNull(arr);
+        assertEquals(0, arr.length);
+    }
+
+    @Test
+    public void testGetWeightedObjectArrFromFileWithOneElement() {
+        String fileName = "src/coursera/common/test/FileIO/testFiles/HuffmanTestFiles/SingleSymbol.txt";
+        WeightedObject[] arr = null;
+
+        try {
+            arr = fileIO.getWeightedObjectArrFromFile(fileName);
+        } catch (IOException e) {
+            fail();
+        }
+
+        assertNotNull(arr);
+        assertEquals(1, arr.length);
+
+        assertEquals(1, arr[0].getIdentifier());
+        assertEquals(7540662, arr[0].getWeight());
+    }
+
+    @Test
+    public void testGetWeightedObjectArrFromFileWithTwoElements() {
+        String fileName = "src/coursera/common/test/FileIO/testFiles/HuffmanTestFiles/DoubleSymbol.txt";
+        WeightedObject[] arr = null;
+
+        try {
+            arr = fileIO.getWeightedObjectArrFromFile(fileName);
+        } catch (IOException e) {
+            fail();
+        }
+
+        assertNotNull(arr);
+        assertEquals(2, arr.length);
+
+        assertEquals(1, arr[0].getIdentifier());
+        assertEquals(7540662, arr[0].getWeight());
+
+        assertEquals(2, arr[1].getIdentifier());
+        assertEquals(6852892, arr[1].getWeight());
     }
 }

@@ -1,6 +1,6 @@
 package coursera.common.datastructures.BinaryTree;
 
-import coursera.common.model.HuffmanSymbol;
+import coursera.common.model.WeightedObject;
 
 /**
  * A node of a BinaryTree
@@ -8,7 +8,7 @@ import coursera.common.model.HuffmanSymbol;
  */
 public class Node {
 
-    private HuffmanSymbol value;
+    private WeightedObject value;
 
     private Node left;
 
@@ -24,7 +24,7 @@ public class Node {
      * Creates a node object with the value passed in as a parameter.  Sets the left and right child to null
      * @param value The value to attach to the node being created.
      */
-    public Node(HuffmanSymbol value) {
+    public Node(WeightedObject value) {
         this.value = value;
         this.left = null;
         this.right = null;
@@ -37,17 +37,17 @@ public class Node {
      * @param left The Node that has a value less than the value of this node
      * @param right The Node that has a value greater than the value of this node
      */
-    public Node(HuffmanSymbol value, Node left, Node right) {
+    public Node(WeightedObject value, Node left, Node right) {
         this.value = value;
         this.left = left;
         this.right = right;
     }
 
-    public HuffmanSymbol getValue() {
+    public WeightedObject getValue() {
         return value;
     }
 
-    public void setValue(HuffmanSymbol value) {
+    public void setValue(WeightedObject value) {
         this.value = value;
     }
 
