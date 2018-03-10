@@ -28,11 +28,10 @@ public class KnapsackProblem {
         int n = potentialItems.length;
         int w = knapsack.getCapacity();
 
-        int optimalSolutions[][] = new int[n + 1][w + 1];
-
+        int optimalSolutions[][] = new int[2][w + 1];
 
         // Initialize the solutions for 0 capacity and n items to 0
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < 2; i++) {
             optimalSolutions[i][0] = 0;
         }
 
@@ -41,25 +40,30 @@ public class KnapsackProblem {
             optimalSolutions[0][x] = 0;
         }
 
-        for (int i = 1, lenI = optimalSolutions.length; i < lenI; i++) {
-            item = potentialItems[i-1];
+        for (int i = 0; i < n; i++) {
+            item = potentialItems[i];
 
-            for (int x = 0, lenX = optimalSolutions[i].length; x < lenX; x++) {
-                int case1 = optimalSolutions[i-1][x];
+            for (int x = 0; x < w + 1; x++) {
+                int case1 = optimalSolutions[0][x];
 
                 if (item.getWeight() > x) {
-                    optimalSolutions[i][x] = case1;
+                    optimalSolutions[1][x] = case1;
                 } else {
-                    int case2 = optimalSolutions[i-1][x - item.getWeight()] + item.getValue();
+                    int case2 = optimalSolutions[0][x - item.getWeight()] + item.getValue();
 
-                    optimalSolutions[i][x] = Math.max(case1, case2);
+                    optimalSolutions[1][x] = Math.max(case1, case2);
                 }
             }
+
+            for (int k = 0, len = optimalSolutions[1].length; k < len; k++) {
+                optimalSolutions[0][k] = optimalSolutions[1][k];
+                optimalSolutions[1][k] = 0;
+            }
+
+            //printOptimalSolutions(optimalSolutions);
         }
 
-        //printOptimalSolutions(optimalSolutions);
-
-        return optimalSolutions[n][w];
+        return optimalSolutions[0][w];
     }
 
     private static void printOptimalSolutions(int[][] arr) {
@@ -93,6 +97,16 @@ public class KnapsackProblem {
             System.out.println(KnapsackProblem.calculateMaxValueOfKnapsack(knapsack));
         }
 
+        filename = "src/coursera/common/input-files/module3/week4/knapsack_big.txt";
 
+        try {
+            knapsack = fileIO.getKnapsackFromFile(filename);
+        } catch(IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        if (knapsack != null) {
+            System.out.println(KnapsackProblem.calculateMaxValueOfKnapsack(knapsack));
+        }
     }
 }
