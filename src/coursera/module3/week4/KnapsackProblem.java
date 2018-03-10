@@ -59,8 +59,6 @@ public class KnapsackProblem {
                 optimalSolutions[0][k] = optimalSolutions[1][k];
                 optimalSolutions[1][k] = 0;
             }
-
-            //printOptimalSolutions(optimalSolutions);
         }
 
         return optimalSolutions[0][w];
