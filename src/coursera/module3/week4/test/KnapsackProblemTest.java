@@ -32,7 +32,7 @@ public class KnapsackProblemTest {
             fail(e.getMessage());
         }
 
-        assertEquals(4, KnapsackProblem.calculateMaxValueOfKnsapsack(knapsack));
+        assertEquals(4, KnapsackProblem.calculateMaxValueOfKnapsack(knapsack));
     }
 
     @Test
@@ -45,7 +45,7 @@ public class KnapsackProblemTest {
             fail(e.getMessage());
         }
 
-        assertEquals(14, KnapsackProblem.calculateMaxValueOfKnsapsack(knapsack));
+        assertEquals(14, KnapsackProblem.calculateMaxValueOfKnapsack(knapsack));
     }
 
     @Test
@@ -58,7 +58,7 @@ public class KnapsackProblemTest {
             fail(e.getMessage());
         }
 
-        assertEquals(478, KnapsackProblem.calculateMaxValueOfKnsapsack(knapsack));
+        assertEquals(478, KnapsackProblem.calculateMaxValueOfKnapsack(knapsack));
     }
 
     @Test
@@ -71,6 +71,6 @@ public class KnapsackProblemTest {
             fail(e.getMessage());
         }
 
-        assertEquals(18604, KnapsackProblem.calculateMaxValueOfKnsapsack(knapsack));
+        assertEquals(18604, KnapsackProblem.calculateMaxValueOfKnapsack(knapsack));
     }
 }

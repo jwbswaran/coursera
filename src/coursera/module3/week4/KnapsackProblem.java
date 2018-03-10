@@ -21,7 +21,7 @@ public class KnapsackProblem {
      * @param knapsack knapsack to perform this value calculation on
      * @return maximum possible value to be had with this knapsack.
      */
-    public static int calculateMaxValueOfKnsapsack(Knapsack knapsack) {
+    public static int calculateMaxValueOfKnapsack(Knapsack knapsack) {
         Item[] potentialItems = knapsack.getPotentialItems();
         Item item;
 
@@ -90,9 +90,9 @@ public class KnapsackProblem {
         }
 
         if (knapsack != null) {
-            System.out.println(KnapsackProblem.calculateMaxValueOfKnsapsack(knapsack));
+            System.out.println(KnapsackProblem.calculateMaxValueOfKnapsack(knapsack));
         }
 
-        
+
     }
 }
