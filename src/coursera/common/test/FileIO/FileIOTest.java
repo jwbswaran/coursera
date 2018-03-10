@@ -1,12 +1,10 @@
 package coursera.common.test.FileIO;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
 import coursera.common.EdgeBundle;
 import coursera.common.FileIO;
 import coursera.common.datastructures.AdjacencyList;
+import coursera.common.model.Knapsack.Item;
+import coursera.common.model.Knapsack.Knapsack;
 import coursera.common.model.WeightedObject;
 import coursera.common.model.Job;
 import coursera.common.datastructures.vertices.Edge;
@@ -16,6 +14,8 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
+
+import static org.junit.Assert.*;
 
 public class FileIOTest {
 
@@ -498,5 +498,66 @@ public class FileIOTest {
 
         assertEquals(2, arr[1].getIdentifier());
         assertEquals(6852892, arr[1].getWeight());
+    }
+
+    @Test
+    public void testGetKnapsackFromFileWithEmptyFile() {
+        String fileName = "src/coursera/common/test/FileIO/testFiles/empty.txt";
+        Knapsack knapsack = null;
+
+        try {
+            knapsack = fileIO.getKnapsackFromFile(fileName);
+        } catch(IOException e) {
+            fail();
+        }
+
+        assertNotNull(knapsack);
+        assertEquals(0, knapsack.getCapacity());
+        assertNull(knapsack.getPotentialItems());
+    }
+
+    @Test
+    public void testGetKnapsackFromFileWithOneItemFile() {
+        String fileName = "src/coursera/common/test/FileIO/testFiles/KnapsackTestFiles/oneItem.txt";
+        Knapsack knapsack = null;
+
+        try {
+            knapsack = fileIO.getKnapsackFromFile(fileName);
+        } catch(IOException e) {
+            fail();
+        }
+
+        assertNotNull(knapsack);
+        assertEquals(10000, knapsack.getCapacity());
+
+        Item[] potentialItems = knapsack.getPotentialItems();
+        assertEquals(1, potentialItems.length);
+
+        assertEquals(16808, potentialItems[0].getValue());
+        assertEquals(250, potentialItems[0].getWeight());
+    }
+
+    @Test
+    public void testGetKnapsackFromFileWithTwoItemsFile() {
+        String fileName = "src/coursera/common/test/FileIO/testFiles/KnapsackTestFiles/twoItems.txt";
+        Knapsack knapsack = null;
+
+        try {
+            knapsack = fileIO.getKnapsackFromFile(fileName);
+        } catch(IOException e) {
+            fail();
+        }
+
+        assertNotNull(knapsack);
+        assertEquals(300, knapsack.getCapacity());
+
+        Item[] potentialItems = knapsack.getPotentialItems();
+        assertEquals(2, potentialItems.length);
+
+        assertEquals(16808, potentialItems[0].getValue());
+        assertEquals(250, potentialItems[0].getWeight());
+
+        assertEquals(50074, potentialItems[1].getValue());
+        assertEquals(659, potentialItems[1].getWeight());
     }
 }

@@ -1,5 +1,7 @@
 package coursera.common;
 
+import coursera.common.model.Knapsack.Item;
+import coursera.common.model.Knapsack.Knapsack;
 import coursera.common.model.WeightedObject;
 import coursera.common.model.Job;
 import coursera.common.datastructures.vertices.Edge;
@@ -362,5 +364,50 @@ public class FileIO {
         } catch (IOException e) {
             throw new IOException("Error opening " + fileName);
         }
+    }
+
+    /**
+     * Reads a file in the following format and returns a Knapsack object representation.
+     *
+     * [knapsack_size][number_of_items]
+     * [value_1] [weight_1]
+     * [value_2] [weight_2]
+     *
+     * @param fileName path to the file that needs to be read from
+     * @return knapsack constructed from file
+     */
+    public Knapsack getKnapsackFromFile(String fileName) throws IOException {
+        Charset charset = Charset.forName("UTF-8");
+        Path filePath = Paths.get(fileName);
+        String line;
+        String[] lineSplitArr;
+        Knapsack knapsack;
+        Item[] potentialItems;
+        int i = 0;
+
+        try (BufferedReader reader = Files.newBufferedReader(filePath, charset)) {
+            line = reader.readLine();
+
+            if (line == null) {
+                return new Knapsack(0, null);
+            }
+
+            lineSplitArr = line.split("\\s+");
+            knapsack = new Knapsack(Integer.parseInt(lineSplitArr[0]));
+            potentialItems = new Item[Integer.parseInt(lineSplitArr[1])];
+
+            while ((line = reader.readLine()) != null) {
+                lineSplitArr = line.split("\\s+");
+                potentialItems[i] = new Item(Integer.parseInt(lineSplitArr[0]), Integer.parseInt(lineSplitArr[1]));
+                i++;
+            }
+
+            knapsack.setPotentialItems(potentialItems);
+
+        } catch (IOException e) {
+            throw new IOException("Error opening " + fileName);
+        }
+
+        return knapsack;
     }
 }
